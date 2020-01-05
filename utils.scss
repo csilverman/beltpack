@@ -1,0 +1,65 @@
+
+/*	UTILITIES
+	=========
+	
+	These provide useful functions for writing your own mixins. They're also used by mixins in Beltpack itself, so they should come first.
+*/
+	
+/*
+	As far as I can tell, there doesn't seem to be a function to get a key-value pair from a map based on index number. This might be clumsy, but it works: iterate across the map, incrementing a counter, until the counter matches the specified index, at which point you return the value.
+
+*/
+@function get-map-value-by-index($map, $index) {
+  $i: 0;
+  @each $key, $value in $map {
+    $i: $i + 1;
+    @if $i == $index {
+      @return $value;
+    }
+  }
+}
+
+
+// =============================================================================
+// String Replace - https://gist.github.com/jonathantneal/d0460e5c2d5d7f9bc5e6
+// =============================================================================
+
+@function str-replace($string, $search, $replace: "") {
+	$index: str-index($string, $search);
+
+	@if $index {
+		@return str-slice($string, 1, $index - 1) + $replace + str-replace(str-slice($string, $index + str-length($search)), $search, $replace);
+	}
+
+	@return $string;
+}
+
+@mixin break($break, $min-or-max:'min') {
+	/*	Sets up a media query. This expects that all of a project's breakpoints will
+	    be stored in a map named $breakpoints, as follows:
+
+$breakpoints: (
+	"small": 30em,
+	"medium": 50em,
+	"large": 70em
+);	
+	*/
+	$screen-size: map-get($breakpoints, $break);
+	@media screen and (#{$min-or-max}-width: $screen-size) {
+		@content
+	}
+}
+
+//	Issue: set it so it can handle if someone adds a fourth breakpoint parameter but there are only three breakpoints
+
+@mixin prop($property, $values...) {
+  $i: 0;
+  @each $value in $values {
+    $i: $i+1;
+    @media screen and (min-width: get-map-value-by-index($breakpoints, $i)) {
+      #{$property}: $value;
+    }
+  }
+}
+
+
