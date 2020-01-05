@@ -9,6 +9,19 @@
 	],
 "creatorBuild": "31934",
 "files": {
+	"/aesthetic.scss": {
+		"aP": 0,
+		"bl": 0,
+		"dP": 10,
+		"dS": 0,
+		"ft": 4,
+		"ma": 0,
+		"oA": 1,
+		"oAP": "/aesthetic.css",
+		"oF": 0,
+		"oS": 0,
+		"uL": 1
+		},
 	"/type.scss": {
 		"aP": 0,
 		"bl": 0,
