@@ -20,6 +20,21 @@
 	}
 }
 
+@mixin ac-hidden() {
+	/*
+		from https://webaim.org/techniques/css/invisiblecontent/
+		There's also an .ac-hidden class in _structures/helpers/visibility.scss. That uses this mixin, and can be @extended if need be. I'm also setting this up as a mixin so it can be included in media queries (@extend doesn't work in media queries).
+		
+	*/
+	clip: rect(1px, 1px, 1px, 1px);
+	clip-path: inset(50%);
+	height: 1px;
+	width: 1px;
+	margin: -1px;
+	overflow: hidden;
+	padding: 0;
+	position: absolute;	
+}
 
 @mixin textBackground($background, $fallback: #888) {
 	/*	This is useful for applying an image to text - having the text serve as a mask for the image.
