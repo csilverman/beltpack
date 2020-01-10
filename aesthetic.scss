@@ -67,3 +67,41 @@
     }
 	text-shadow: blockShadow($color, $size);
 }
+
+
+
+
+@mixin color-sequence($list, $property:'background') {
+	/*	This accepts a list of colors and, optionally, a CSS property. It then generates a set of nth-child selectors
+		that are sequentially set to each color in the list. I'm still working on this, because I'd like the first
+		item to start with the first color in the series, and I haven't worked that out yet.
+		
+		Usage:
+
+		article {
+		  @include color-sequence($colors-list);
+		}
+		
+	*/
+  $count: length($colors-list);
+  @each $current-color in $colors-list {
+    $i: index($colors-list, $current-color);
+    &:nth-child(#{$count}n-#{$i}) {
+        #{$property}: $current-color;      
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
