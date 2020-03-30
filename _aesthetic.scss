@@ -107,7 +107,15 @@
   }
 }
 
-
+@mixin has-background-image($image, $fallback: #aaa) {
+	//	from http://nimbupani.com/using-background-clip-for-text-with-css-fallback.html
+	//	Thanks Divya!
+	color: $fallback;
+	-webkit-text-fill-color: transparent;
+	background: -webkit-linear-gradient(transparent, transparent), url($image) repeat;
+	background: -o-linear-gradient(transparent, transparent);
+	-webkit-background-clip: text;
+}
 
 
 

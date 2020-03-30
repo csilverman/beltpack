@@ -9,7 +9,7 @@
 	],
 "creatorBuild": "31934",
 "files": {
-	"/aesthetic.scss": {
+	"/_aesthetic.scss": {
 		"aP": 0,
 		"bl": 0,
 		"dP": 10,
@@ -17,12 +17,12 @@
 		"ft": 4,
 		"ma": 0,
 		"oA": 1,
-		"oAP": "/aesthetic.css",
+		"oAP": "/_aesthetic.css",
 		"oF": 0,
 		"oS": 0,
 		"uL": 1
 		},
-	"/type.scss": {
+	"/_animation.scss": {
 		"aP": 0,
 		"bl": 0,
 		"dP": 10,
@@ -30,12 +30,12 @@
 		"ft": 4,
 		"ma": 0,
 		"oA": 1,
-		"oAP": "/type.css",
+		"oAP": "/_animation.css",
 		"oF": 0,
 		"oS": 0,
 		"uL": 1
 		},
-	"/utils.scss": {
+	"/_type.scss": {
 		"aP": 0,
 		"bl": 0,
 		"dP": 10,
@@ -43,7 +43,20 @@
 		"ft": 4,
 		"ma": 0,
 		"oA": 1,
-		"oAP": "/utils.css",
+		"oAP": "/_type.css",
+		"oF": 0,
+		"oS": 0,
+		"uL": 1
+		},
+	"/_utils.scss": {
+		"aP": 0,
+		"bl": 0,
+		"dP": 10,
+		"dS": 0,
+		"ft": 4,
+		"ma": 0,
+		"oA": 1,
+		"oAP": "/_utils.css",
 		"oF": 0,
 		"oS": 0,
 		"uL": 1
