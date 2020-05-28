@@ -152,18 +152,23 @@
   //  Keep in mind that this is the amount of time it should take to remove the "no-js"
   //  class, *not* the time it takes for the page to load. If JS is running, removing the
   //  no-js class should happen in less than a second.
-  @at-root#{$root-selector}.no-js & {
+  @at-root.no-js#{$root-selector} & {
     animation-name: $name;
     animation-delay: 0.8s;
     animation-duration: 0.1s;
-    animation-fill-mode: forward;
+    animation-fill-mode: forwards;
   }
 
   //  If the JS loads, the no-js class is removed, 
   //  so the reveal animation never happens and the element
   //  continues to be hidden.
-  @at-root#{$root-selector}.page-is-loaded & {
+  @at-root.page-is-loaded#{$root-selector} & {
     animation-name: $name;
+
+    @each $key, $value in $anim-props {
+      #{$key}: #{$value};
+    }
+
   }
 }
 
