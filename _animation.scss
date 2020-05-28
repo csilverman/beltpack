@@ -80,10 +80,10 @@
 
 	@keyframes fade-in {
 		0% {
-			opacity: 0%;
+			opacity: 0;
 		}
 		100% {
-			opacity: 100%;
+			opacity: 1;
 		}
 	}	
 	
@@ -100,6 +100,88 @@
 
 
 
+/*	Utilities
+	---------
+	Couple of tools for applying animations.
+
+*/
+
+@mixin anim-onload($name, $start-props, $end-props, $anim-props, $settings:(item: 1)) {
+
+	$defaults: (
+		root-selector: '',
+	);
+
+	$root-selector: has-key($settings, $defaults, root-selector);
+
+
+  //  the basic animation
+  @keyframes #{$name} {
+    from {
+      @each $key, $value in $start-props {
+        #{$key}: #{$value};
+      }
+    }
+    to {
+      @each $key, $value in $end-props {
+        #{$key}: #{$value};
+      }
+    }
+  }
+
+
+  //  This is the basic state: hidden by default.
+  
+  @each $key, $value in $start-props {
+    #{$key}: #{$value};
+  }
+
+
+  //  The reveal animation is tied to the no-js class, because we don't
+  //  want this to happen if JS is there. Removing that class keeps the
+  //  element hidden, but removes the reveal animation, since we know we
+  //  won't need it at this point.
+  
+  //  Note: this addresses a scenario where JS is turned off. If JS is on,
+  //  but never adds the page-is-loaded class for some reason (something doesn't load,
+  //  it's broken), the content won't be revealed. To address that situation, you'd
+  //  need something that times out after a while and applies a "reveal" class.
+
+  //  If there is no JS to reveal the animation,
+  //  reveal everything shortly. I've hard-coded a value of 0.8s.
+  //  Keep in mind that this is the amount of time it should take to remove the "no-js"
+  //  class, *not* the time it takes for the page to load. If JS is running, removing the
+  //  no-js class should happen in less than a second.
+  @at-root#{$root-selector}.no-js & {
+    animation-name: $name;
+    animation-delay: 0.8s;
+    animation-duration: 0.1s;
+    animation-fill-mode: forward;
+  }
+
+  //  If the JS loads, the no-js class is removed, 
+  //  so the reveal animation never happens and the element
+  //  continues to be hidden.
+  @at-root#{$root-selector}.page-is-loaded & {
+    animation-name: $name;
+  }
+}
+
+$start: (
+  opacity: 0,
+  transform: translateX(-1em),
+);
+$end: (
+  opacity: 1,
+  transform: translateX(0),
+);
+$anim-props: (
+  animation-duration: 1s,
+  animation-fill-mode: forward,
+);
+$settings: (
+  root-selector: '.home',
+);
 
 @mixin sequence($map:(item: 1)) {
 	//	deprecated
