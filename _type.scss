@@ -70,3 +70,25 @@
 	@include css($all-css);
 }
 
+
+
+@mixin make-typographic-classes() {
+	
+	/*	Runs through all classes, generates classes: serif-small, serif-medium, etc
+	*/
+	@each $key, $value in $font-styles {
+		$font-type: $key;
+		
+		$font-type-styles: map-get($font-styles, $font-type);
+		
+		@if $font-type-styles != 'font-family' {
+			@each $key, $value in $font-type-styles {
+				.#{$font-type}-#{$key} {
+					@include font($font-type, $key);
+				}
+			}
+		}
+	}
+//	font(sans-serif, large-condensed)
+}
+

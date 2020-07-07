@@ -126,6 +126,7 @@ $breakpoints: (
 	"large": 70em
 );	
 	*/
+
 	$screen-size: map-get($breakpoints, $break);
 	@media screen and (#{$min-or-max}-width: $screen-size) {
 		@content

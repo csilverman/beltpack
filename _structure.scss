@@ -1,0 +1,38 @@
+/*
+	STRUCTURE
+	=========	
+	
+	This contains mixins that might be useful for layout stuff.	
+*/
+
+
+
+@mixin padding-based-maxwidth($width) {
+	$padding: calc(((100vw - #{$width})/2) + 2em);
+	padding-left: $padding;
+	padding-right: $padding;
+}
+
+@mixin breakout($width:100vw, $but-only-after:0) {
+	//	thxxxxx https://codepen.io/tigt/post/bust-elements-out-of-containers-with-one-line-of-css	
+
+//	margin: auto calc(50% - 50vw);
+	margin-left: calc(50% - 50vw);
+	margin-right: calc(50% - 50vw);
+	width: $width;
+	transform: translateX(calc(50vw - 50%));
+	max-width: 100vw;
+	
+//	I think this came from Lea Verou...?
+//	Works like a charm for breaking out 100vw elements, but doesn't
+//	work with anything where you need it to be 60em or something	
+//    @media screen and (min-width: $but-only-after) {
+/*		width: 100vw;
+		position: relative;
+		left: 50%;
+		right: 50%;
+		margin-left: -50vw;
+		margin-right: -50vw;
+		max-width: none;	*/
+//	}
+}
