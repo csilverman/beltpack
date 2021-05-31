@@ -1,3 +1,4 @@
+//// @group utils
 
 /*	UTILITIES
 	=========
@@ -13,7 +14,8 @@
 
 
 ///	helper-classes
-///	@param {map} $map 
+///	@param {map} $map
+/// @group utilities
 ///	@param {string} $property
 /// As far as I can tell, there doesn't seem to be a function to get a key-value pair from a map based on index number. This might be clumsy, but it works: iterate across the map, incrementing a counter, until the counter matches the specified index, at which point you return the value.
 
