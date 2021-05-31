@@ -1,0 +1,19 @@
+{
+  "name": "beltpack",
+  "version": "1.0.0",
+  "description": "Useful mixins",
+  "main": "~beltpack.scss",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/csilverman/beltpack.git"
+  },
+  "author": "csilverman",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/csilverman/beltpack/issues"
+  },
+  "homepage": "https://github.com/csilverman/beltpack#readme"
+}
