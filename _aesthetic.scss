@@ -5,18 +5,57 @@
 	These mixins handle aesthetic effects.
 */
 
-@mixin linkColors($link, $visited, $hover, $active) {
+@mixin linkColors(
+	$link, 
+	$visited, 
+	$hover, 
+	$active, 
+	$link_bg:transparent,
+	$linkhover_bg:transparent
+	) {
 	&:link {
 		color: $link;
+		background: $link_bg;
 	}
 	&:visited {
 		color: $visited;
+		background: $link_bg;
 	}
 	&:hover, &:visited:hover, &:focus {
 		color: $hover;
+		background: $linkhover_bg;
 	}
 	&:active, &:visited:active {
 		color: $active;
+		background: $linkhover_bg;
+	}
+}
+@mixin bp__linkColors($link, $visited, $hover, $active) {
+	@include linkColors($link, $visited, $hover, $active);
+}
+
+
+@mixin bp__frosted-glass($color) {
+
+	/*	Generates a frosted-glass background, with a
+		fallback for browsers that don't support it.
+	*/
+	
+	@if $color == white {
+		background: rgba(255, 255, 255, 0.96);
+	
+		@supports (backdrop-filter: blur(10px)) {
+			background: rgba(255, 255, 255, 0.8);
+		    backdrop-filter: blur(10px);	
+		}	
+	}
+	@if $color == black {
+		background: rgba(0, 0, 0, 0.93);
+	
+		@supports (backdrop-filter: blur(10px)) {
+			background: rgba(0, 0, 0, 0.8);
+		    backdrop-filter: blur(10px);	
+		}	
 	}
 }
 
@@ -35,6 +74,9 @@
 	padding: 0;
 	position: absolute;	
 }
+@mixin bp__ac-hidden() {
+	@include ac-hidden();
+}
 
 @mixin textBackground($background, $fallback: #888) {
 	/*	This is useful for applying an image to text - having the text serve as a mask for the image.
@@ -46,6 +88,9 @@
 	background: -webkit-linear-gradient(transparent, transparent), $background repeat;
 	background: -o-linear-gradient(transparent, transparent);
 	-webkit-background-clip: text;
+}
+@mixin bp__text-background($background, $fallback: #888) {
+	@include textBackground($background, $fallback: #888);
 }
 
 @mixin hide-visually() {
@@ -62,7 +107,9 @@
     position: absolute;
     width: 1px;
 }
-
+@mixin bp__hide-visually() {
+	@include hide-visually();
+}
 
 @function blockShadow($color, $size) {
     $shadow: 1px 1px $color;

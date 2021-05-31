@@ -19,7 +19,7 @@
 //	margin: auto calc(50% - 50vw);
 	margin-left: calc(50% - 50vw);
 	margin-right: calc(50% - 50vw);
-	width: $width;
+	width: $width !important;	// this may have to override an existing width
 	transform: translateX(calc(50vw - 50%));
 	max-width: 100vw;
 	

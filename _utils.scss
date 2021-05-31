@@ -2,13 +2,122 @@
 /*	UTILITIES
 	=========
 	
-	These provide useful functions for writing your own mixins. They're also used by mixins in Beltpack itself, so they should come first.
+	These provide useful functions for writing your own mixins, as well as mixins for automating certain processes (generating responsive CSS from a map, for example). They're also used by mixins in Beltpack itself, so they should come first.
 */
 	
 /*
 	As far as I can tell, there doesn't seem to be a function to get a key-value pair from a map based on index number. This might be clumsy, but it works: iterate across the map, incrementing a counter, until the counter matches the specified index, at which point you return the value.
 
 */
+
+@mixin helper-classes($map, $property, $settings:(item: 1)) {
+	$selector_prefix: null;
+	$defaults: (
+		prefix: false,
+	);
+
+	$prefix: has-key($settings, $defaults, prefix);
+
+
+	//	This generates a set of simple classes - typically helper classes - from a provided map.
+	
+	//	$map should look like this:
+	
+	//	$narrow-widths: (
+	//		quarter: (33%, 25%),
+	//		third: (50%, 40%),
+	//		half: (100%, 52%),
+	//		full: (100%)
+	//	) !default;
+
+	//	$property is whatever property we're trying to style; say, "width".
+	//	So helper-classes($narrow-widths, width) would generate a series of 
+	//	classes - width-quarter, width-third - with the "width" property set to
+	//	the specified percentages. The values are lists, with each item corresponding
+	//	to the position of a breakpoint defined in the central $breakpoints map, located
+	//	in your _config file.
+	
+	@if $prefix {
+		$selector_prefix: $prefix;
+	}
+	@else {
+		$selector_prefix: $property;
+	}
+
+	
+  	@each $key, $value in $map {
+		$number-of-breakpoints: length($value);
+		@for $i from 1 through $number-of-breakpoints {
+			@if $i == 1 {
+				.#{$selector_prefix}-#{$key} {
+					#{$property}: nth($value, $i);
+				}
+			}
+			// if not, wrap it in a media query
+			@else {
+				$the-breakpoint: get-map-value-by-index($breakpoints, $i);
+
+				@media screen and (min-width: $the-breakpoint) {
+					.#{$selector_prefix}-#{$key} {
+						#{$property}: nth($value, $i);
+					}
+				}
+			}
+		}
+	}
+}
+
+
+
+@mixin wide-widths($map) {
+
+
+	//	This is identical to helper-classes(), except the values are
+	//	wrapped in a breakout() mixin, which generates CSS to expand an element
+	//	outside the max-width of a containing element. This would be used in situations
+	//	where you wanted to designate a series of widths that would break out of the
+	//	containing element: maybe a pullquote that's only a little wider than the
+	//	container, and a large image that's much wider - maybe even full-bleed.
+	//	I would have liked to work this functionality into helper-classes(), since they're
+	//	so similar, but I don't want to sink a lot of time into eliminating one mixin and
+	//	possibly making things more complicated. I'll think about this in the future.
+
+	@each $key, $value in $map {
+		$number-of-breakpoints: length($value);
+		@for $i from 1 through $number-of-breakpoints {
+			@if $i == 1 {
+				.width-#{$key} {
+					clear: both;
+					@include breakout(nth($value, $i));
+				}
+			}
+			// if not, wrap it in a media query
+			@else {
+				$the-breakpoint: get-map-value-by-index($breakpoints, $i);
+				@media screen and (min-width: $the-breakpoint) {
+					.width-#{$key} {
+						@media screen and (min-width: nth($value, $i)) {
+							@include breakout(nth($value, $i));
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+
+
+@mixin hideVisually() {
+	clip: rect(0 0 0 0);
+	clip-path: inset(50%);
+	height: 1px;
+	overflow: hidden;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+}
+
 
 
 /*	FUNCTIONS
@@ -85,6 +194,48 @@
     } @else {
       @return map-get($defaults, $key);
   }
+}
+
+
+
+@function makeSelectorsWithChildren($parentSelector, $children) {
+    /*  makeSelectorsWithChildren()
+        This function accepts a parent selector (.block) and a
+        list of child elements (.block__content, .blockInner), and
+        generates the following:
+        
+        .block,
+        .block .block__content, 
+        .block .blockInner
+        
+        I built this with helper classes in mind. A helper class like
+        .padding:large might typically be applied to an element, but in
+        systems like WordPress, the elements that actually contain the 
+        content are child elements of the block that you'd apply the class
+        to, so you'd need a set of selectors that address both situations.
+        
+        @param $parentSelector - string. 
+        @param $children - list. All child elements that need
+            to be included in the list of generated selectors.
+
+    */
+
+    $finalSeriesOfSelectors: '';
+    @each $item in $children {
+        //  For each one, set up a selector where the child is appended
+        //  to the parent
+        $selectorWithChildren: $parentSelector + ' ' + #{$item} + ', ';
+
+        //  And then add the generated selector to 
+        //  the full list of selectors.
+        $finalSeriesOfSelectors: $finalSeriesOfSelectors + $selectorWithChildren;
+    }
+    //  Finally, add the selector for the main helper class
+    //  to the list of selectors. This also means I don't have to
+    //  worry about any end commas.
+    $finalSeriesOfSelectors: $finalSeriesOfSelectors + $parentSelector;
+    
+    @return unquote($finalSeriesOfSelectors);
 }
 
 
@@ -284,10 +435,6 @@ $breakpoints: (
   }
   
 }
-
-
-
-
 
 
 

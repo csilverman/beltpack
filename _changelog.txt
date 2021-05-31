@@ -1,0 +1,20 @@
+v 0.2.0 - 20210531
+==================
+
+## _aesthetic.scss
+* Added support for backgrounds to linkColors mixin
+
+## _helper-class-generators.scss
+* Added
+
+## docs folder
+
+
+v 0.1.0 - 20210302
+==================
+
+## changelog
+* added
+
+## _utils
+* Added helper-classes() and wide-widths()
