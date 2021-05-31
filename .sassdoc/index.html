@@ -1,0 +1,57 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Beltpack - v1.0.0</title><link rel="stylesheet" href="assets/css/main.css"><link href="https://fonts.googleapis.com/css?family=Open+Sans:400,500,700" rel="stylesheet" type="text/css"><meta name="viewport" content="width=device-width"><meta content="IE=edge, chrome=1" http-equiv="X-UA-Compatible"><!-- Open Graph tags --><meta property="og:title" content="Beltpack - SassDoc"><meta property="og:type" content="website"><meta property="og:description" content="<p>A collection of useful mixins</p>
+"><!-- Thanks to Sass-lang.com for the icons --><link href="assets/images/favicon.png" rel="shortcut icon"></head><body><aside class="sidebar" role="nav"><div class="sidebar__header"><h1 class="sidebar__title"><a href="https://github.com/csilverman/beltpack#readme">Beltpack - v1.0.0</a></h1></div><div class="sidebar__body"><button type="button" class="btn-toggle js-btn-toggle" data-alt="Open all">Close all</button><p class="sidebar__item sidebar__item--heading" data-slug="undefined"><a href="#undefined">General</a></p><div><p class="sidebar__item sidebar__item--sub-heading" data-slug="undefined-mixin"><a href="#undefined-mixin">mixins</a></p><ul class="list-unstyled"><li class="sidebar__item sassdoc__item" data-group="undefined" data-name="helper-classes" data-type="mixin"><a href="#undefined-mixin-helper-classes">helper-classes</a></li></ul></div></div></aside><article class="main" role="main"><header class="header" role="banner"><div class="container"><div class="sassdoc__searchbar searchbar"><label for="js-search-input" class="visually-hidden">Search</label><div class="searchbar__form" id="js-search"><input name="search" type="search" class="searchbar__field" autocomplete="off" autofocus id="js-search-input" placeholder="Search"><ul class="searchbar__suggestions" id="js-search-suggestions"></ul></div></div></div></header><section class="main__section"><h1 class="main__heading" id="undefined"><div class="container">General</div></h1><section class="main__sub-section" id="undefined-mixin"><h2 class="main__heading--secondary"><div class="container">mixins</div></h2><section class="main__item container item" id="undefined-mixin-helper-classes"><h3 class="item__heading"><a class="item__name" href="#mixin-helper-classes">helper-classes</a></h3><div class="item__code-wrapper"><pre class="item__code item__code--togglable language-scss" data-current-state="collapsed" data-expanded="@mixin helper-classes($map, $property) { 
+	$selector_prefix: null;
+	$defaults: (
+		prefix: false,
+	);
+
+	$prefix: has-key($settings, $defaults, prefix);
+
+
+	//	This generates a set of simple classes - typically helper classes - from a provided map.
+	
+	//	$map should look like this:
+	
+	//	$narrow-widths: (
+	//		quarter: (33%, 25%),
+	//		third: (50%, 40%),
+	//		half: (100%, 52%),
+	//		full: (100%)
+	//	) !default;
+
+	//	$property is whatever property we&#39;re trying to style; say, &quot;width&quot;.
+	//	So helper-classes($narrow-widths, width) would generate a series of 
+	//	classes - width-quarter, width-third - with the &quot;width&quot; property set to
+	//	the specified percentages. The values are lists, with each item corresponding
+	//	to the position of a breakpoint defined in the central $breakpoints map, located
+	//	in your _config file.
+	
+	@if $prefix {
+		$selector_prefix: $prefix;
+	}
+	@else {
+		$selector_prefix: $property;
+	}
+
+	
+  	@each $key, $value in $map {
+		$number-of-breakpoints: length($value);
+		@for $i from 1 through $number-of-breakpoints {
+			@if $i == 1 {
+				.#{$selector_prefix}-#{$key} {
+					#{$property}: nth($value, $i);
+				}
+			}
+			// if not, wrap it in a media query
+			@else {
+				$the-breakpoint: get-map-value-by-index($breakpoints, $i);
+
+				@media screen and (min-width: $the-breakpoint) {
+					.#{$selector_prefix}-#{$key} {
+						#{$property}: nth($value, $i);
+					}
+				}
+			}
+		}
+	}
+ }" data-collapsed="@mixin helper-classes($map, $property) { ... }"><code>@mixin helper-classes($map, $property) { ... }</code></pre></div><h3 class="item__sub-heading">Description</h3><div class="item__description"><p>helper-classes</p></div><h3 class="item__sub-heading">Parameters</h3><table class="item__parameters"><thead><tr><th scope="col"><span class="visually-hidden">parameter </span>Name</th><th scope="col"><span class="visually-hidden">parameter </span>Description</th><th scope="col"><span class="visually-hidden">parameter </span>Type</th><th scope="col"><span class="visually-hidden">parameter </span>Default value</th></tr></thead><tbody><tr class="item__parameter"><th scope="row" data-label="name"><code>$map</code></th><td data-label="desc">&mdash;<span class="visually-hidden"> none</span></td><td data-label="type"><code>Map</code></td><td data-label="default">&mdash;<span class="visually-hidden"> none</span></td></tr><tr class="item__parameter"><th scope="row" data-label="name"><code>$property</code></th><td data-label="desc"><p>As far as I can tell, there doesn&#39;t seem to be a function to get a key-value pair from a map based on index number. This might be clumsy, but it works: iterate across the map, incrementing a counter, until the counter matches the specified index, at which point you return the value.</p></td><td data-label="type"><code>String</code></td><td data-label="default">&mdash;<span class="visually-hidden"> none</span></td></tr></tbody></table></section></section></section><footer class="footer" role="contentinfo"><div class="container"><div class="footer__project-info project-info"><!-- Name and URL --> <a class="project-info__name" href="https://github.com/csilverman/beltpack#readme">Beltpack</a><!-- Version --> <span class="project-info__version">- v1.0.0</span><!-- License --> <span class="project-info__license">, under ISC</span></div><a class="footer__watermark" href="http://sassdoc.com"><img src="assets/images/logo_light_inline.svg" alt="SassDoc Logo"></a></div></footer></article><script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script><script>window.jQuery || document.write('<script src="assets/js/vendor/jquery.min.js"><\/script>')</script><script src="assets/js/main.min.js"></script></body></html>
